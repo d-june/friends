@@ -61,14 +61,7 @@ const App: React.FC = () => {
 
     return (
         <>
-            <Switch
-                checked={theme === 'dark'}
-                onChange={changeTheme}
-                checkedChildren="Dark"
-                unCheckedChildren="Light"
-            />
-            <br/>
-            <br/>
+
             <Menu
                 theme={theme}
                 onClick={onClick}
@@ -77,6 +70,13 @@ const App: React.FC = () => {
                 selectedKeys={[current]}
                 mode="inline"
                 items={items}
+            />
+            <br/>
+            <Switch
+                checked={theme === 'dark'}
+                onChange={changeTheme}
+                checkedChildren="Dark"
+                unCheckedChildren="Light"
             />
         </>
     );

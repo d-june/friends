@@ -11,7 +11,3 @@ export type UserType = {
     followed: boolean
 
 }
-
-export type ResponseType = {
-
-}
