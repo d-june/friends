@@ -1,0 +1,17 @@
+.headerContainer {
+    padding: 20px;
+    background-color: #001529;
+}
+
+.headerContent {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.userName {
+    color: #fff;
+}
