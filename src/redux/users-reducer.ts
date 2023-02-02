@@ -9,10 +9,11 @@ const usersSlice = createSlice({
     initialState: {
         users: [] as Array<UserType>,
         loading: false,
-        followingInProgress: false
+        followingInProgress: [] as Array<number>,
+        isFetching: false
     },
     reducers: {
-        follow(state, action: PayloadAction<number>) {
+        follow(state, action) {
             state.users.map(user => {
                 if (user.id === action.payload) {
                     return user.followed = true
@@ -20,13 +21,16 @@ const usersSlice = createSlice({
                 return user
             })
         },
-        unfollow(state, action: PayloadAction<number>) {
+        unfollow (state, action) {
             state.users.map(user => {
                 if (user.id === action.payload) {
                     return user.followed = false
                 }
                 return user
             })
+        },
+        toggleFollowingProgress (state, action) {
+            state.followingInProgress = action.payload.isFetching ? [...state.followingInProgress, action.payload.userId] : state.followingInProgress.filter(id => id != action.payload.userId)
         }
     },
     extraReducers: (builder) => {
@@ -36,42 +40,54 @@ const usersSlice = createSlice({
             })
             .addCase(getUsers.fulfilled, (state, action) => {
                 state.users = action.payload.items
-                state.loading= false
-            })
-            .addCase(followSuccess.pending, (state) => {
-                state.followingInProgress = true
-            })
-            .addCase(followSuccess.fulfilled, (state, action) => {
-                state.followingInProgress = false
+                state.loading = false
             })
     }
 })
 
-export const {follow, unfollow} = usersSlice.actions;
+export const {follow, unfollow, toggleFollowingProgress} = usersSlice.actions;
 
-export const getUsers = createAsyncThunk<GetItemsResponseType, undefined, {rejectValue: string}>(
+export const getUsers = createAsyncThunk<GetItemsResponseType, undefined, { rejectValue: string }>(
     'users/getUsers',
-    async function(_, {rejectWithValue}) {
-            const data = await usersApi.getUsers();
+    async function (_, {rejectWithValue}) {
+        const data = await usersApi.getUsers();
 
-            if(data.error) {
-                return rejectWithValue(data.error);
-            }
+        if (data.error) {
+            return rejectWithValue(data.error);
+        }
         return data;
 
     }
 )
 
-export const followSuccess = createAsyncThunk<APIResponseType, number, {rejectValue: string}> (
+export const followSuccess = createAsyncThunk<APIResponseType, number, { rejectValue: string }>(
     'users/followSuccess',
-    async function(userId, {rejectWithValue}) {
+    async function (userId, {rejectWithValue, dispatch}) {
+        dispatch(toggleFollowingProgress({isFetching: true, userId}))
         const data = await usersApi.follow(userId);
-        if(data.resultCode === 0) {
+        if (data.resultCode === 1) {
             return rejectWithValue(data.messages[0]);
         }
-        follow(userId)
+        dispatch(toggleFollowingProgress({isFetching: false, userId}))
+        dispatch(follow(userId))
         return data;
     }
 )
+
+export const unfollowSuccess = createAsyncThunk<APIResponseType, number, { rejectValue: string }>(
+    'users/unfollowSuccess',
+    async function (userId, {rejectWithValue, dispatch}) {
+        dispatch(toggleFollowingProgress({isFetching: true, userId}))
+        const data = await usersApi.unfollow(userId);
+        if (data.resultCode === 1) {
+            return rejectWithValue(data.messages[0]);
+        }
+        dispatch(toggleFollowingProgress({isFetching: false, userId}))
+        dispatch(unfollow(userId))
+
+        return data;
+    }
+)
+
 
 export default usersSlice.reducer;

@@ -5,9 +5,9 @@ export const usersApi = {
         return instance.get<GetItemsResponseType>('users').then(response => response.data)
     },
     follow (userId: number) {
-        return instance.post<APIResponseType>(' /follow/{userId}').then(response => response.data)
+        return instance.post<APIResponseType>(`follow/${userId}`).then(response => response.data)
     },
     unfollow (userId: number) {
-        return instance.delete<APIResponseType>(' /follow/{userId}').then(response => response.data)
+        return instance.delete<APIResponseType>(`follow/${userId}`).then(response => response.data)
     }
 }

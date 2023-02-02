@@ -1,11 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {PhotosType} from "../../types/types";
 import defaultAvatar from "../../img/cat-1.webp"
 import {Button, Col, Row} from "antd";
 import styles from './Users.module.css'
-import {useAppDispatch} from "../../hooks/hooks";
-import {follow, unfollow} from "../../redux/users-reducer";
-
 
 type PropsType = {
     id: number
@@ -13,19 +10,14 @@ type PropsType = {
     photos: PhotosType
     status: string
     followed: boolean
+    followingInProgress: Array<number>
+    follow: (id: number) => void
+    unfollow: (id: number) => void
 }
-const User: React.FC<PropsType> = ({id, name, photos, status, followed}) => {
-
-    const dispatch = useAppDispatch()
-    const followUser = () => {
-        dispatch(follow(id))
-    }
-
-    const unfollowUser = () => {
-        dispatch(unfollow(id))
-    }
+const User: React.FC<PropsType> = ({id, name, photos, status, followed, followingInProgress, follow, unfollow}) => {
 
     return (
+
         <div className={styles.userContainer}>
             <Row justify="center" align="middle">
                 <Col span={2}>
@@ -39,8 +31,8 @@ const User: React.FC<PropsType> = ({id, name, photos, status, followed}) => {
                 </Col>
                 <Col span={3}>
                     {followed
-                    ? <div className={styles.userButton}><Button type="primary" onClick={unfollowUser}>Отписаться</Button></div>
-                        : <div className={styles.userButton}><Button type="primary" onClick={followUser}>Подписаться</Button></div>
+                    ? <div className={styles.userButton}><Button type="primary" loading={followingInProgress.some(i => i === id)} onClick={() => unfollow(id)}>Отписаться</Button></div>
+                        : <div className={styles.userButton}><Button type="primary" loading={followingInProgress.some(i => i === id)} onClick={() => follow(id)}>Подписаться</Button></div>
                     }
                 </Col>
             </Row>

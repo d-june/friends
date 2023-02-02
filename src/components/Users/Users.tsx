@@ -1,4 +1,4 @@
-import {getUsers} from "../../redux/users-reducer";
+import {followSuccess, getUsers, unfollowSuccess} from "../../redux/users-reducer";
 import User from "./User";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
 import React, {useEffect} from "react";
@@ -8,12 +8,21 @@ import {Breadcrumb} from "antd";
 import {HomeOutlined, UserOutlined} from '@ant-design/icons';
 
 const Users = () => {
-    const {loading, users} = useAppSelector(state => state.users)
+    const {loading, users, followingInProgress} = useAppSelector(state => state.users)
 
     const dispatch = useAppDispatch()
+
     useEffect(() => {
         dispatch(getUsers())
     }, [dispatch])
+
+    const follow= (id: number) => {
+        dispatch(followSuccess(id))
+    }
+    const unfollow = (id: number) => {
+        dispatch(unfollowSuccess(id))
+    }
+
 
     return (
         <div className={styles.usersContainer}>
@@ -31,7 +40,7 @@ const Users = () => {
                 ? <Loading/>
                 : users.map(user => {
                     return <User key={user.id} id={user.id} name={user.name} photos={user.photos}
-                                 status={user.status} followed={user.followed}/>
+                                 status={user.status} followed={user.followed} followingInProgress={followingInProgress} follow={follow} unfollow={unfollow}/>
                 })
             }
 
