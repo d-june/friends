@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {usersApi} from "../api/users-api";
 import {UserType} from "../types/types";
 import {APIResponseType, GetItemsResponseType} from "../api/api";
@@ -8,6 +8,7 @@ const usersSlice = createSlice({
     name: 'users',
     initialState: {
         users: [] as Array<UserType>,
+        totalCount: 0,
         loading: false,
         followingInProgress: [] as Array<number>,
         isFetching: false
@@ -40,6 +41,7 @@ const usersSlice = createSlice({
             })
             .addCase(getUsers.fulfilled, (state, action) => {
                 state.users = action.payload.items
+                state.totalCount = action.payload.totalCount
                 state.loading = false
             })
     }
@@ -47,10 +49,10 @@ const usersSlice = createSlice({
 
 export const {follow, unfollow, toggleFollowingProgress} = usersSlice.actions;
 
-export const getUsers = createAsyncThunk<GetItemsResponseType, undefined, { rejectValue: string }>(
+export const getUsers = createAsyncThunk<GetItemsResponseType, number, { rejectValue: string }>(
     'users/getUsers',
-    async function (_, {rejectWithValue}) {
-        const data = await usersApi.getUsers();
+    async function (currentPage, {rejectWithValue}) {
+        const data = await usersApi.getUsers(currentPage);
 
         if (data.error) {
             return rejectWithValue(data.error);

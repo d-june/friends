@@ -1,0 +1,15 @@
+.profileContainer {
+    border: 1px solid rgba(0, 21, 41, 0.1);
+    border-radius: 10px;
+    padding: 40px;
+    background: linear-gradient(90deg, transparent, #fff);
+}
+
+.profileImage {
+    border-radius: 20px;
+    overflow: hidden;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0,21,41,0.2);
+}
+
+
