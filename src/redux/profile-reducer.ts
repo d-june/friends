@@ -1,8 +1,9 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {ProfileContactsType, ProfilePhotosType, ProfileType} from "../types/types";
+import {PhotosType, ProfileContactsType, ProfilePhotosType, ProfileType} from "../types/types";
 import {profileAPI} from "../api/profile-api";
 import {APIResponseType} from "../api/api";
 import {RootState} from "./store";
+import {stat} from "fs";
 
 
 const profileSlice = createSlice({
@@ -27,6 +28,7 @@ const profileSlice = createSlice({
             small: null as string | null,
             large: null as string | null | undefined
         } as ProfilePhotosType,
+        status: ''
     },
     reducers: {
         setProfileData (state, action) {
@@ -38,10 +40,16 @@ const profileSlice = createSlice({
             state.contacts = action.payload.contacts
             state.photos.small = action.payload.photos.small
             state.photos.large = action.payload.photos.large
+        },
+        editAvatarSuccess (state, action) {
+            state.photos = action.payload.photos;
+        },
+        setStatusBody(state, action) {
+            state.status = action.payload;
         }
     }
 })
-export const {setProfileData} = profileSlice.actions
+export const {setProfileData, editAvatarSuccess,setStatusBody} = profileSlice.actions
 export const getProfile = createAsyncThunk<ProfileType, number, { rejectValue: string }>(
     'profile/getProfile',
     async function (userId, {dispatch}) {
@@ -62,7 +70,7 @@ export const saveProfile = createAsyncThunk<APIResponseType, ProfileType, {rejec
             rejectWithValue(data.messages[0])
         }
         const state = getState() as RootState;
-        const userId = state.auth.id
+        const userId = state.auth.autorizedId
         if (userId) {
             dispatch(getProfile(userId))
         } else {
@@ -70,6 +78,41 @@ export const saveProfile = createAsyncThunk<APIResponseType, ProfileType, {rejec
         }
 
         return data
+    }
+)
+
+export const editAvatar = createAsyncThunk<APIResponseType<PhotosType>, File, { rejectValue: string }> (
+    'profile/editAvatar',
+    async function (image, {rejectWithValue, dispatch, getState}) {
+        const data = await profileAPI.editAvatar(image)
+        if(data.resultCode === 1) {
+            rejectWithValue(data.messages[0])
+        }
+        dispatch(editAvatarSuccess(data.data))
+
+
+        return data
+    }
+)
+
+export const getStatus = createAsyncThunk<string, number | undefined, {rejectValue: string}> (
+    'profile/getStatus',
+    async function (userId, {rejectWithValue, dispatch}) {
+        const data = await profileAPI.getStatus(userId)
+        dispatch(setStatusBody(data))
+        return data
+    }
+)
+export const setStatus = createAsyncThunk<APIResponseType, string, {rejectValue: string}> (
+    'profile/setStatus',
+    async function (statusBody, {rejectWithValue, dispatch}) {
+        const data = await profileAPI.setStatus(statusBody)
+        if(data.resultCode === 1) {
+            rejectWithValue(data.messages[0])
+        }
+    dispatch(setStatusBody(statusBody))
+
+    return data
     }
 )
 export default profileSlice.reducer

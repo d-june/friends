@@ -1,7 +1,7 @@
 import {Col, Row} from "antd";
-import {ProfileType} from "../types/types";
+import {ProfileType} from "../../../types/types";
 import React, {FC} from "react";
-import styles from "./ProfileInfo.module.css"
+import styles from "../Profile.module.css"
 import {
     GithubFilled,
     YoutubeFilled,
@@ -23,7 +23,7 @@ const ProfileInfo:FC <ProfileType & onEditMode> = ({fullName, lookingForAJob, lo
                 <Row>
                     <Row className={styles.row} align='middle' gutter={10}>
                         <Col className={styles.profileInfoName}>{fullName}</Col>
-                        <Col className={styles.profileEdit} onClick={onEditMode}><EditOutlined/></Col>
+                        <Col onClick={onEditMode}><EditOutlined className={styles.editButton}/></Col>
                     </Row>
                     <Row className={`${styles.subtitle} ${styles.row}`}><Col span={24}><h3>Обо мне:</h3></Col> <Col span={24}>{aboutMe}</Col></Row>
 

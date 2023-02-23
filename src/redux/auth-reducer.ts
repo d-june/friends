@@ -6,7 +6,7 @@ import {LoginType} from "../types/types";
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        id: null as number | null,
+        autorizedId: null as number | null,
         login: null as string | null,
         email: null as string | null,
         isAuth: false,
@@ -14,7 +14,7 @@ const authSlice = createSlice({
     },
     reducers: {
         setAuthUserData(state, action) {
-            state.id = action.payload.data.id
+            state.autorizedId = action.payload.data.id
             state.login = action.payload.data.login
             state.email = action.payload.data.email
             state.isAuth = action.payload.data.isAuth

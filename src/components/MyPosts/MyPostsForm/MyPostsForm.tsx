@@ -10,7 +10,7 @@ const MyPostsForm = () => {
     const dispatch = useAppDispatch()
     const [newPostText, setNewPostText] = useState('')
     const onSubmit = (values: postType) => {
-        dispatch(addPost({userAvatar: photos.large, postText: values.postText, likesCount: 5}))
+        dispatch(addPost({userAvatar: photos.large, postText: values.postText, likesCount: 0}))
         setNewPostText('')
     }
 

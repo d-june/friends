@@ -1,7 +1,7 @@
 import {Button, Checkbox, Col, Form, Input, Row} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, {FC, useState} from "react";
-import {ProfileType} from "../types/types";
+import {ProfileType} from "../../../types/types";
 import {
     UserOutlined,
     GithubFilled,
@@ -11,8 +11,8 @@ import {
     LinkOutlined,
     InstagramFilled
 } from "@ant-design/icons";
-import { useAppSelector} from "../hooks/hooks";
-import styles from "./ProfileInfo.module.css";
+import { useAppSelector} from "../../../hooks/hooks";
+import styles from "../Profile.module.css";
 
 type PropsType = {
     onSubmit: (values: ProfileType) => void

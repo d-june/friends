@@ -9,6 +9,7 @@
     background: linear-gradient(90deg, #1e0d35,#0f101b);
     color: white;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .postContainer img {

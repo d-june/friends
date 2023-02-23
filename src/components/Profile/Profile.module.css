@@ -1,5 +1,5 @@
 .profileContainer {
-    border: 1px solid rgba(0, 21, 41, 0.1);
+    border: 1px solid #CFCFCF;
     border-radius: 10px;
     padding: 40px;
     background: linear-gradient(90deg, transparent, #fff);
@@ -8,8 +8,86 @@
 .profileImage {
     border-radius: 20px;
     overflow: hidden;
+    width: 250px;
+    height: 250px;
+    box-shadow: 0 0 10px rgba(0,21,41,0.4);
+    position: relative;
+}
+
+.profileImage img {
     width: 100%;
-    box-shadow: 0 0 10px rgba(0,21,41,0.2);
+    height: 100%;
+}
+
+.photoEdit {
+    position: absolute;
+    top: 20px;
+    right: 60px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out 0s;
+    font-size: 18px;
+    color: rgba(0,21,41,0.7);
+    display: flex;
+    align-items: center;
+}
+
+.photoEdit:hover {
+    color: #1677ff;
+}
+
+.photoEditInput {
+    display: none;
+}
+
+.row {
+    width: 100%;
+    border-bottom: 1px solid rgba(0,21,41,0.2);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.profileInfoContainer {
+    line-height: 2em;
+    color: #001529;
+}
+
+.profileInfoName {
+    font-weight: bold;
+    color: #1677ff;
+    font-size: 30px;
+}
+
+.subtitle h3 {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.subtitle label {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
 
+.profileIcon {
+    font-size: 20px;
+}
+
+.editButton {
+    cursor: pointer;
+    transition: color 0.3s ease-in-out 0s;
+    font-size: 18px;
+    color: rgba(0,21,41,0.7);
+    display: flex;
+    align-items: center;
+}
+
+.editButton:hover {
+    color: #1677ff;
+}
+
+.status {
+    width: 100%;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}

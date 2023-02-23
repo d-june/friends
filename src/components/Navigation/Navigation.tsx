@@ -1,84 +1,20 @@
-import React, {useState} from 'react';
-import {AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined, TeamOutlined} from '@ant-design/icons';
-import type {MenuProps, MenuTheme} from 'antd';
-import {Menu, Switch} from 'antd';
-import MenuItem from 'antd/es/menu/MenuItem';
-import {Link} from 'react-router-dom';
+import { FC } from 'react';
+import {NavLink} from 'react-router-dom';
+import {UserOutlined, TeamOutlined} from '@ant-design/icons';
+import styles from './Navigation.module.css'
+import {useAppSelector} from "../../hooks/hooks";
 
-type MenuItem = Required<MenuProps>['items'][number];
+const App: FC = () => {
 
-function getItem(
-    label: React.ReactNode,
-    key?: React.Key | null,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: 'group',
-): MenuItem {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    } as MenuItem;
-}
-
-const items: MenuItem[] = [
-    getItem('Navigation One', 'sub1', <MailOutlined/>, [
-        getItem(<Link to='/profile'>Профиль</Link>, '1', <UserOutlined/>),
-        getItem('Option 2', '2'),
-        getItem('Option 3', '3'),
-        getItem('Option 4', '4'),
-    ]),
-
-    getItem('Navigation Two', 'sub2', <AppstoreOutlined/>, [
-        getItem(<Link to='/users'>Пользователи</Link>, '5', <TeamOutlined/>),
-        getItem('Option 6', '6'),
-        getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-    ]),
-
-    getItem('Navigation Three', 'sub4', <SettingOutlined/>, [
-        getItem('Option 9', '9'),
-        getItem('Option 10', '10'),
-        getItem('Option 11', '11'),
-        getItem('Option 12', '12'),
-    ]),
-];
-
-
-const App: React.FC = () => {
-    const [theme, setTheme] = useState<MenuTheme>('dark');
-    const [current, setCurrent] = useState('1');
-
-    const changeTheme = (value: boolean) => {
-        setTheme(value ? 'dark' : 'light');
-    };
-
-    const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
-        setCurrent(e.key);
-    };
+    const {autorizedId} = useAppSelector(state => state.auth)
 
     return (
-        <>
-
-            <Menu
-                theme={theme}
-                onClick={onClick}
-                style={{width: 256}}
-                defaultOpenKeys={['sub1']}
-                selectedKeys={[current]}
-                mode="inline"
-                items={items}
-            />
-            <br/>
-            <Switch
-                checked={theme === 'dark'}
-                onChange={changeTheme}
-                checkedChildren="Dark"
-                unCheckedChildren="Light"
-            />
-        </>
+        <nav className={styles.menuContainer}>
+            <ul className={styles.menuList}>
+                <li className={styles.menuItem}><NavLink className={({isActive}) => (isActive ? styles.menuLink + ' ' + styles.menuLinkActive : styles.menuLink)} to={'/profile/'+autorizedId}><UserOutlined/> Профиль</NavLink></li>
+                <li className={styles.menuItem}><NavLink className={({isActive}) => isActive ? styles.menuLink + ' ' + styles.menuLinkActive : styles.menuLink} to='/users'><TeamOutlined/> Пользователи</NavLink></li>
+            </ul>
+        </nav>
     );
 };
 

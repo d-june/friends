@@ -12,7 +12,6 @@ const Header = () => {
 
     const dispatch = useAppDispatch()
 
-    console.log(photos.small)
     useEffect(() => {
         dispatch(getAuth());
     }, [dispatch])

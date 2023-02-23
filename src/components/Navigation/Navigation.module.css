@@ -1,0 +1,21 @@
+.menuContainer {
+
+}
+
+.menuList {
+    list-style: none;
+}
+
+.menuItem {
+    text-transform: uppercase;
+}
+
+.menuLink {
+    display: block;
+    color: #0f101b;
+    padding: 5px 0px;
+}
+
+.menuLinkActive {
+    color: #1677ff;
+}

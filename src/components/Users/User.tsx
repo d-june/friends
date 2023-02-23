@@ -1,8 +1,9 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {PhotosType} from "../../types/types";
 import defaultAvatar from "../../img/cat-1.webp"
 import {Button, Col, Row} from "antd";
 import styles from './Users.module.css'
+import {Link} from "react-router-dom";
 
 type PropsType = {
     id: number
@@ -18,7 +19,7 @@ const User: React.FC<PropsType> = ({id, name, photos, status, followed, followin
 
     return (
 
-        <div className={styles.userContainer}>
+        <Link to={'/profile/' + id} className={styles.userContainer}>
             <Row justify="center" align="middle">
                 <Col span={2}>
                     <div className={styles.userPhoto}>
@@ -36,7 +37,7 @@ const User: React.FC<PropsType> = ({id, name, photos, status, followed, followin
                     }
                 </Col>
             </Row>
-        </div>
+        </Link>
     )
 }
 
