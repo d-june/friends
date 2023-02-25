@@ -21,10 +21,11 @@ img {
 .userName {
     font-weight: bold;
     font-size: 18px;
+    color: #0f101b;
 }
 
 .userStatus {
-
+    color: grey;
 }
 
 .userButton {

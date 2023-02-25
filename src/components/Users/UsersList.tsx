@@ -1,7 +1,7 @@
 import {followSuccess, getUsers, unfollowSuccess} from "../../redux/users-reducer";
 import User from "./User";
 import {useAppDispatch, useAppSelector} from "../../hooks/hooks";
-import React, {useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import styles from "./Users.module.css"
 import Loading from "../Loading/Loading";
 import {Breadcrumb, Col, Pagination, PaginationProps, Row} from "antd";
@@ -12,10 +12,15 @@ import queryString from 'query-string';
 import {getUsersFilter} from "../../selectors/users-selector";
 
 type QueryParamsType = { term?: string; page?: string; }
-const Users = () => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const {loading, users, followingInProgress, totalCount} = useAppSelector(state => state.users)
-    const filter = useAppSelector(getUsersFilter)
+
+type PropsType = {
+    filterFriend?: boolean | null
+    pathname: string
+    pageName: string
+}
+const UsersList: FC<PropsType> = ({filterFriend, pathname, pageName}) => {
+    const {loading, users, followingInProgress, totalCount, filter, currentPage} = useAppSelector(state => state.users)
+    //const filter = useAppSelector(getUsersFilter)
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
@@ -24,13 +29,19 @@ const Users = () => {
     useEffect(() => {
         const parsed = queryString.parse(location.search.substr(1))
         let actualPage = currentPage
-        let actualFilter = filter
-
         if (!!parsed.page) actualPage = Number(parsed.page)
+        let actualFilter = {term: '', friend: null as boolean | null}
+        if(filterFriend === true) {
+            actualFilter = {term: filter.term, friend: filterFriend}
+        } else {
+            actualFilter = {term: filter.term, friend: null}
+        }
         if (!!parsed.term) actualFilter = {...actualFilter, term: parsed.term as string}
-        setCurrentPage(actualPage);
-
         dispatch(getUsers({currentPage: actualPage, filter: actualFilter}))
+
+        return function cleanup() {
+            dispatch(getUsers({currentPage: 1, filter: {term: '', friend: null}}))
+        };
     }, [dispatch])
 
     useEffect(() => {
@@ -40,21 +51,14 @@ const Users = () => {
         if (currentPage !== 1) query.page = String(currentPage)
 
         navigate({
-            pathname: '/users',
+            pathname: pathname,
             search: queryString.stringify(query)
         })
-    }, [filter, currentPage])
+    }, [filter.term, currentPage])
 
-    const follow = (id: number) => {
-        dispatch(followSuccess(id))
-    }
-    const unfollow = (id: number) => {
-        dispatch(unfollowSuccess(id))
-    }
 
     const onChange: PaginationProps['onChange'] = (page) => {
-        dispatch(getUsers({currentPage: page, filter}))
-        setCurrentPage(page);
+        dispatch(getUsers({currentPage: page, filter: {term: filter.term, friend: filter.friend}}))
     };
 
     return (
@@ -65,11 +69,7 @@ const Users = () => {
                         <Breadcrumb.Item href="">
                             <HomeOutlined/>
                         </Breadcrumb.Item>
-                        <Breadcrumb.Item href="">
-                            <UserOutlined/>
-                            <span>Application List</span>
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item>Пользователи</Breadcrumb.Item>
+                        <Breadcrumb.Item>{pageName}</Breadcrumb.Item>
                     </Breadcrumb>
                 </Col>
                 <Col span={24}>
@@ -84,7 +84,7 @@ const Users = () => {
                         : users.map(user => {
                             return <User key={user.id} id={user.id} name={user.name} photos={user.photos}
                                          status={user.status} followed={user.followed}
-                                         followingInProgress={followingInProgress} follow={follow} unfollow={unfollow}/>
+                                         followingInProgress={followingInProgress}/>
                         })
                     }
                 </Col>
@@ -95,5 +95,5 @@ const Users = () => {
     )
 }
 
-export default Users;
+export default UsersList;
 

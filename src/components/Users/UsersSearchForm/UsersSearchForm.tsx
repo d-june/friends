@@ -19,7 +19,7 @@ const UsersSearchForm: FC<PropsType> = ({current}) => {
     }, [filter, form]);
 
     const onSubmit = (values: { term: string }) => {
-        dispatch(getUsers({currentPage: current, filter: {term:values.term}}))
+        dispatch(getUsers({currentPage: 1, filter: {term:values.term, friend: filter.friend}}))
     }
 
     return (

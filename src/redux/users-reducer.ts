@@ -5,11 +5,12 @@ import {APIResponseType, GetItemsResponseType} from "../api/api";
 
 const initialState = {
         users: [] as Array<UserType>,
+        currentPage: 1,
         totalCount: 0,
         loading: false,
         followingInProgress: [] as Array<number>,
         isFetching: false,
-        filter: {term: ''},
+        filter: {term: '', friend: null as boolean | null},
     }
 
 const usersSlice = createSlice({
@@ -37,7 +38,9 @@ const usersSlice = createSlice({
         },
         setFilter (state, action) {
             state.filter = action.payload
-
+        },
+        setCurrentPage (state, action) {
+            state.currentPage = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -53,7 +56,7 @@ const usersSlice = createSlice({
     }
 })
 
-export const {follow, unfollow, toggleFollowingProgress, setFilter} = usersSlice.actions;
+export const {follow, unfollow, toggleFollowingProgress, setFilter, setCurrentPage} = usersSlice.actions;
 
 export const getUsers = createAsyncThunk<GetItemsResponseType, { currentPage: number, filter: FilterType }, { rejectValue: string }>(
     'users/getUsers',
@@ -64,6 +67,7 @@ export const getUsers = createAsyncThunk<GetItemsResponseType, { currentPage: nu
             return rejectWithValue(data.error);
         }
         dispatch(setFilter(filter))
+        dispatch(setCurrentPage(currentPage))
         return data;
 
     }

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import './App.module.css';
 import {Col, Row} from 'antd';
-import Users from "./components/Users/Users";
+import UsersList from "./components/Users/UsersList";
 import styles from "./App.module.css"
 
 import {Route, Routes} from "react-router-dom";
@@ -10,6 +10,8 @@ import Navigation from "./components/Navigation/Navigation";
 import Header from './components/Header/Header';
 import Login from "./pages/Login";
 import User from './components/Users/User';
+import Friends from "./pages/Friends";
+import Users from './pages/Users';
 
 
 
@@ -25,10 +27,10 @@ const App: FC = () => {
                     <Col span={5}> <Navigation/></Col>
                     <Col span={19}><Routes>
                         <Route path='/' element={<Profile />}></Route>
-
                         <Route path='/profile/:id' element={<Profile/>}></Route>
                         <Route path='/profile' element={<Profile/>}></Route>
                         <Route path='/users' element={<Users/>}></Route>
+                        <Route path='/friends' element={<Friends/>}></Route>
                         <Route path='/login' element={<Login />}></Route>
                     </Routes></Col>
                 </Row>
