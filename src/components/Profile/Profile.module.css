@@ -1,16 +1,26 @@
 .profileContainer {
-    /*border: 1px solid #CFCFCF;*/
     border-radius: 10px;
     background: linear-gradient(90deg, transparent, #fff);
-    padding-right: 20px;
+    padding: 100px 40px 40px 40px;
+    position: relative;
+}
+
+.profileContainer::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #1e0d35, #0f101b);
 }
 
 .profileImage {
-    border-radius: 20px;
+    border-radius: 50%;
     overflow: hidden;
-
-    /*box-shadow: 0 0 10px rgba(0,21,41,0.4);*/
-    position: relative;
+    width: 300px;
+    height: 300px;
 }
 
 .profileImage img {
@@ -19,19 +29,20 @@
 }
 
 .photoEdit {
-    position: absolute;
-    top: 20px;
-    right: 60px;
     cursor: pointer;
-    transition: color 0.3s ease-in-out 0s;
-    font-size: 18px;
-    color: rgba(0,21,41,0.7);
+    transition: all 0.3s ease-in-out 0s;
+    background: #1677ff;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin-top: 100px
 }
 
 .photoEdit:hover {
-    color: #1677ff;
+    background: #708090;
 }
 
 .photoEditInput {
@@ -42,17 +53,16 @@
     width: 100%;
     border-bottom: 1px solid rgba(0,21,41,0.2);
     padding-bottom: 20px;
-    margin-bottom: 20px;
 }
 
 .profileInfoContainer {
     line-height: 2em;
     color: #001529;
+    margin-top: 30px;
 }
 
 .profileInfoName {
     font-weight: bold;
-    color: #1677ff;
     font-size: 30px;
 }
 
@@ -74,7 +84,7 @@
 
 .editButton {
     cursor: pointer;
-    transition: color 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
     font-size: 18px;
     color: rgba(0,21,41,0.7);
     display: flex;
@@ -83,10 +93,26 @@
 
 .editButton:hover {
     color: #1677ff;
+
+}
+
+.editButtonStatus {
+    background: #1677ff;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+}
+
+.editButtonStatus:hover {
+    background: #708090;
+    color: white;
 }
 
 .status {
     width: 100%;
     padding-bottom: 20px;
     margin-bottom: 20px;
+    margin-top: 100px;
+    color: white;
 }
+

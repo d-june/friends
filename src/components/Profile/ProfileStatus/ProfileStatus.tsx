@@ -33,7 +33,7 @@ const ProfileStatus: FC<PropsType> = ({userId}) => {
 
     return (
         <>
-            {!editMode && <Row className={styles.status} align='middle' gutter={10}><Col>{status}</Col> <Col><EditOutlined className={styles.editButton} onClick={activateEditMode}/></Col></Row>}
+            {!editMode && <Row className={styles.status} justify='end' align='middle' gutter={10}><Col>{status}</Col> <Col><EditOutlined className={styles.editButton + ' ' + styles.editButtonStatus} onClick={activateEditMode}/></Col></Row>}
             {editMode &&
                 <Form
                     onFinish={updateStatus}

@@ -11,12 +11,12 @@ const MyPostsContent = () => {
         <>
             <Row>
                 {posts.map(post => {
-                    return <Row gutter={20} className={styles.postContainer}>
-                        <Col span={2}><img src={post.userAvatar || defaultAvatar} alt="Avatar"/></Col>
-                        <Col>
+                    return <Row className={styles.postContainer}>
+                        <Col span={4}><img src={post.userAvatar || defaultAvatar} alt="Avatar"/></Col>
+                        <Col span={20}>
                             <Row align='middle' className={styles.postContent}>
                                 <Col span={24}>{post.postText}</Col>
-                                <Row align='middle' gutter={5}><Col><LikeOutlined /></Col><Col>{post.likesCount}</Col></Row>
+                                <Row align='middle' justify='end' gutter={5} className={styles.postLikes}><Col><LikeOutlined /></Col><Col>{post.likesCount}</Col></Row>
                             </Row>
                         </Col>
                     </Row>

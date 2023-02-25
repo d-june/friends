@@ -43,7 +43,7 @@ const Profile = () => {
     }
 
     const editUserAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.target.files !== null) {
+        if (e.target.files !== null) {
             dispatch(editAvatar(e.target.files[0]));
             console.log(e.target.files[0])
         }
@@ -52,17 +52,29 @@ const Profile = () => {
     return (
         <>
 
-                <section className={styles.profileContainer} >
-                    {isAuth ?
-                    <Row justify='center' gutter={40}>
-                        <Col span={8}>
-                            <div className={styles.profileImage}>
-                                <img src={photos.large || defaultAvatar} alt='avatar'/>
-                            </div>
-                            {Number(id) === autorizedId && <div><label className={styles.photoEdit}><EditOutlined/><input type='file' className={styles.photoEditInput} onChange={editUserAvatar} /> </label> </div> }
+            {isAuth ?
+                <section className={styles.profileContainer}>
+                    <Row justify='space-between' gutter={20}>
+                        <Col span={12}>
+                            <Row justify='space-between'>
+                                <Col className={styles.profileImage}>
+                                    <img src={photos.large || defaultAvatar} alt='avatar'/>
+                                </Col>
+                                <Col span={8}>
+                                    {Number(id) === autorizedId &&
+                                        <div><label className={styles.photoEdit}>Изменить фото<input type='file'
+                                                                                                            className={styles.photoEditInput}
+                                                                                                            onChange={editUserAvatar}/>
+                                        </label></div>}
+                                </Col>
+                            </Row>
                         </Col>
-                        <Col span={16}>
-                            <ProfileStatus userId={Number(id)} />
+                        <Col span={12}>
+                            <ProfileStatus userId={Number(id)}/>
+                        </Col>
+                    </Row>
+                    <Row gutter={100}>
+                        <Col span={12}>
                             {editMode
                                 ? <div><ProfileForm onSubmit={onSubmit}/></div>
                                 : <div className={styles.profileContent}><ProfileInfo fullName={fullName}
@@ -73,12 +85,13 @@ const Profile = () => {
                                                                                       onEditMode={onEditMode}/></div>
                             }
                         </Col>
+                        <Col span={12}>
+                            {Number(id) === autorizedId && <MyPosts/>}
+                        </Col>
                     </Row>
-                        : <Navigate to="/login" replace={true}/>
-                    }
-                    {Number(id) === autorizedId && <MyPosts />}
                 </section>
-
+                : <Navigate to="/login" replace={true}/>
+            }
 
 
 

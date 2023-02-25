@@ -1,6 +1,6 @@
 .headerContainer {
     padding: 20px;
-    background-color: #001529;
+    background: linear-gradient(90deg, #1e0d35, #0f101b);
 }
 
 .headerContent {

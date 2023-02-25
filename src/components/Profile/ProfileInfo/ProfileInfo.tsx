@@ -27,8 +27,8 @@ const ProfileInfo:FC <ProfileType & onEditMode> = ({fullName, lookingForAJob, lo
                     </Row>
                     <Row className={`${styles.subtitle} ${styles.row}`}><Col span={24}><h3>Обо мне:</h3></Col> <Col span={24}>{aboutMe}</Col></Row>
 
-                    {lookingForAJob ? <Row className={`${styles.subtitle} ${styles.row}`}><h3>Профессиональные навыки: </h3>{lookingForAJobDescription}</Row> : ""}
-                    <Row className={styles.row}>
+                    {lookingForAJob ? <Row className={`${styles.subtitle} ${styles.row}`}><Col span={24}><h3>Профессиональные навыки: </h3></Col>{lookingForAJobDescription}</Row> : ""}
+                    <Row>
                         <Col span={24} className={styles.subtitle}><h3>Контакты:</h3></Col>
                         {contacts.github && <Col span={24}><GithubFilled  className={styles.profileIcon} /> Github: {contacts.github}</Col>}
                         {contacts.vk && <Col span={24}><GithubFilled className={styles.profileIcon}/> VK: {contacts.vk}</Col>}

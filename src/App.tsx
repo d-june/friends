@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import User from './components/Users/User';
 import Friends from "./pages/Friends";
 import Users from './pages/Users';
+import Chat from "./pages/Chat";
 
 
 
@@ -31,6 +32,7 @@ const App: FC = () => {
                         <Route path='/profile' element={<Profile/>}></Route>
                         <Route path='/users' element={<Users/>}></Route>
                         <Route path='/friends' element={<Friends/>}></Route>
+                        <Route path='/chat' element={<Chat/>}></Route>
                         <Route path='/login' element={<Login />}></Route>
                     </Routes></Col>
                 </Row>
