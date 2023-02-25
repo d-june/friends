@@ -54,14 +54,14 @@ const Profile = () => {
 
                 <section className={styles.profileContainer} >
                     {isAuth ?
-                    <Row justify='center' gutter={80}>
-                        <Col>
+                    <Row justify='center' gutter={40}>
+                        <Col span={8}>
                             <div className={styles.profileImage}>
                                 <img src={photos.large || defaultAvatar} alt='avatar'/>
                             </div>
                             {Number(id) === autorizedId && <div><label className={styles.photoEdit}><EditOutlined/><input type='file' className={styles.photoEditInput} onChange={editUserAvatar} /> </label> </div> }
                         </Col>
-                        <Col span={10}>
+                        <Col span={16}>
                             <ProfileStatus userId={Number(id)} />
                             {editMode
                                 ? <div><ProfileForm onSubmit={onSubmit}/></div>

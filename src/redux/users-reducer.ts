@@ -3,16 +3,18 @@ import {usersApi} from "../api/users-api";
 import {UserType} from "../types/types";
 import {APIResponseType, GetItemsResponseType} from "../api/api";
 
-
-const usersSlice = createSlice({
-    name: 'users',
-    initialState: {
+const initialState = {
         users: [] as Array<UserType>,
         totalCount: 0,
         loading: false,
         followingInProgress: [] as Array<number>,
-        isFetching: false
-    },
+        isFetching: false,
+        filter: {term: ''},
+    }
+
+const usersSlice = createSlice({
+    name: 'users',
+    initialState: initialState,
     reducers: {
         follow(state, action) {
             state.users.map(user => {
@@ -32,6 +34,10 @@ const usersSlice = createSlice({
         },
         toggleFollowingProgress (state, action) {
             state.followingInProgress = action.payload.isFetching ? [...state.followingInProgress, action.payload.userId] : state.followingInProgress.filter(id => id != action.payload.userId)
+        },
+        setFilter (state, action) {
+            state.filter = action.payload
+
         }
     },
     extraReducers: (builder) => {
@@ -47,16 +53,17 @@ const usersSlice = createSlice({
     }
 })
 
-export const {follow, unfollow, toggleFollowingProgress} = usersSlice.actions;
+export const {follow, unfollow, toggleFollowingProgress, setFilter} = usersSlice.actions;
 
-export const getUsers = createAsyncThunk<GetItemsResponseType, number, { rejectValue: string }>(
+export const getUsers = createAsyncThunk<GetItemsResponseType, { currentPage: number, filter: FilterType }, { rejectValue: string }>(
     'users/getUsers',
-    async function (currentPage, {rejectWithValue}) {
-        const data = await usersApi.getUsers(currentPage);
+    async function ({currentPage, filter}, {rejectWithValue, dispatch}) {
+        const data = await usersApi.getUsers(currentPage, filter);
 
         if (data.error) {
             return rejectWithValue(data.error);
         }
+        dispatch(setFilter(filter))
         return data;
 
     }
@@ -91,5 +98,5 @@ export const unfollowSuccess = createAsyncThunk<APIResponseType, number, { rejec
     }
 )
 
-
+export type FilterType = typeof initialState.filter
 export default usersSlice.reducer;

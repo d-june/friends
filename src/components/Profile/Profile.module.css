@@ -1,16 +1,15 @@
 .profileContainer {
-    border: 1px solid #CFCFCF;
+    /*border: 1px solid #CFCFCF;*/
     border-radius: 10px;
-    padding: 40px;
     background: linear-gradient(90deg, transparent, #fff);
+    padding-right: 20px;
 }
 
 .profileImage {
     border-radius: 20px;
     overflow: hidden;
-    width: 250px;
-    height: 250px;
-    box-shadow: 0 0 10px rgba(0,21,41,0.4);
+
+    /*box-shadow: 0 0 10px rgba(0,21,41,0.4);*/
     position: relative;
 }
 
