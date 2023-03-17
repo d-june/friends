@@ -12,7 +12,7 @@ import Login from "./pages/Login";
 import User from './components/Users/User';
 import Friends from "./pages/Friends";
 import Users from './pages/Users';
-import Chat from "./pages/Chat";
+import ChatPage from "./pages/ChatPage";
 
 
 
@@ -25,14 +25,14 @@ const App: FC = () => {
             </Row>
             <main className={styles.appContent}>
                 <Row justify="space-between">
-                    <Col span={5}> <Navigation/></Col>
-                    <Col span={19}><Routes>
+                    <Col span={24}> <Navigation/></Col>
+                    <Col span={24}><Routes>
                         <Route path='/' element={<Profile />}></Route>
                         <Route path='/profile/:id' element={<Profile/>}></Route>
                         <Route path='/profile' element={<Profile/>}></Route>
                         <Route path='/users' element={<Users/>}></Route>
                         <Route path='/friends' element={<Friends/>}></Route>
-                        <Route path='/chat' element={<Chat/>}></Route>
+                        <Route path='/chat' element={<ChatPage/>}></Route>
                         <Route path='/login' element={<Login />}></Route>
                     </Routes></Col>
                 </Row>
